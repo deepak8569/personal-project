@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pace Car garage</title>
+    <!-- INTERNAL CSS -->
+     <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e5e7eb;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .owner-card {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem;
+    border: 1px solid #1f2937;
+    border-radius: 1rem;
+    background: #020617;
+}
+
+.owner-card img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fbbf24;
+}
+
+.owner-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+    color: #fbbf24;
+}
+
+.owner-info p {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+
+        /* NAVBAR */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+     .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo img {
+    height: 50px;
+    width: auto;
+    filter: drop-shadow(0 0 8px #fbbf24);
+}
+.logo span {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ef4444; /* Red */
+    text-shadow:
+        0 0 6px #ef4444,
+        0 0 12px #b91c1c,
+        0 0 20px #7f1d1d;
+    letter-spacing: 1px;
+}
+
+
+.logo img {
+    height: 120px;        /* controls logo size */
+    width: 80;
+    object-fit: contain;
+}
+
+
+        .logo span {
+    margin-left: 10px;
+    font-size: 3.4rem;
+    font-weight: bold;
+    color:#fbbf24;
+}
+
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a {
+            padding-bottom: 2px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-color: #38bdf8;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1rem 4rem;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 2.4rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text h1 span {
+            color: #38bdf8;
+        }
+
+        .hero-text p {
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid #1f2937;
+            font-size: 0.75rem;
+            color: #d1d5db;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: #0b1120;
+            padding: 0.7rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            border-radius: 999px;
+            padding: 0.7rem 1.4rem;
+            border: 1px solid #4b5563;
+            background: transparent;
+            color: #e5e7eb;
+            cursor: pointer;
+        }
+
+        .hero-image {
+            background: radial-gradient(circle at top, #38bdf8 0, #0f172a 50%, #020617 100%);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #1f2937;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-car {
+
+    height: 220px;
+    border-radius: 1rem;
+    border: 1px solid #1f2937;
+    background: url("test.jpg") center/cover no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+
+        .stat-box {
+            flex: 1;
+            border-radius: 0.75rem;
+            border: 1px solid #1f2937;
+            padding: 0.7rem;
+            margin-right: 0.5rem;
+        }
+
+        .stat-box:last-child {
+            margin-right: 0;
+        }
+
+        .stat-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+        }
+
+        /* SECTION GENERAL */
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            margin-bottom: 1.8rem;
+        }
+
+        /* ABOUT */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+        }
+
+        .about-grid p {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .about-highlights {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .about-highlights li {
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .about-card {
+            border-radius: 1rem;
+            border: 1px solid #1f2937;
+            padding: 1rem;
+            background: #020617;
+        }
+
+        .about-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .about-card p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        /* SERVICES */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.3rem;
+        }
+
+        .service-card {
+            border-radius: 1rem;
+            border: 1px solid #1f2937;
+            padding: 1rem;
+            background: #020617;
+        }
+
+        .service-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .service-card p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-bottom: 0.6rem;
+        }
+
+        .service-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid #1f2937;
+            color: #d1d5db;
+        }
+
+        /* PRICING */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.3rem;
+        }
+
+        .pricing-card {
+            border-radius: 1rem;
+            border: 1px solid #1f2937;
+            padding: 1.2rem;
+            background: #020617;
+        }
+
+        .pricing-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 0.4rem;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 0.7rem;
+        }
+
+        .pricing-card li {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-bottom: 0.3rem;
+        }
+
+        .small-note {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.3rem;
+        }
+
+        .testimonial-card {
+            border-radius: 1rem;
+            border: 1px solid #1f2937;
+            padding: 1rem;
+            background: #020617;
+            font-size: 0.85rem;
+        }
+
+        .testimonial-name {
+            margin-top: 0.7rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .testimonial-role {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* CONTACT */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 2rem;
+        }
+
+        .contact-form {
+            border-radius: 1rem;
+            border: 1px solid #1f2937;
+            padding: 1.2rem;
+            background: #020617;
+        }
+
+        .form-row {
+            margin-bottom: 0.9rem;
+        }
+
+        .form-row label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .form-row input,
+        .form-row textarea,
+        .form-row select {
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 0.5rem;
+            border: 1px solid #1f2937;
+            background: #020617;
+            color: #e5e7eb;
+            font-size: 0.85rem;
+        }
+
+        .form-row textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .contact-info {
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.4rem;
+        }
+
+        .contact-info strong {
+            color: #38bdf8;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #1f2937;
+            margin-top: 1rem;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            color: #6b7280;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero,
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                text-align: left;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* simple version: hide links on small screen */
+            }
+
+            .hero {
+                padding-top: 2rem;
+            }
+
+            .services-grid,
+            .pricing-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid,
+            .pricing-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="nav">
+            <div class="logo">
+    <img src="logo.png" alt="Pace Car Garage Logo">
+    <span>....Pace Car Garage...</span>
+</div>
+
+
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Reliable <span>Car Care</span> for Every Journey.</h1>
+            <p>Full-service car garage for routine service, emergency repairs, and premium detailing. Trusted by hundreds of car owners in your city.</p>
+
+            <div class="hero-badges">
+                <span class="badge">⏱ Same-day service (by slot)</span>
+                <span class="badge">🧰 Certified mechanics</span>
+                <span class="badge">🚗 Pickup & drop available</span>
+            </div>
+
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="window.location.href='#contact'">Book Service</button>
+                <button class="btn-outline" onclick="window.location.href='#services'">View Services</button>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img src="" alt="" style="width:200px; border:2px solid red;">
+
+            <div class="hero-car"></div>
+
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Cars Serviced</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">4.8★</div>
+                    <div class="stat-label">Customer Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2 class="section-title">About Our Garage</h2>
+        <p class="section-subtitle">We treat every car like it's our own.</p>
+
+        <div class="about-grid">
+            <div>
+                <p>
+                    Pace Car Garage is a modern car service center focused on transparent pricing, quality parts, and honest advice.
+                    Whether it's routine maintenance or complex repair work, our certified mechanics ensure your car is in safe hands.
+                </p>
+                <ul class="about-highlights">
+                    <li>✔ Genuine parts & oils used</li>
+                    <li>✔ Clear billing with no hidden charges</li>
+                    <li>✔ Comfortable waiting area with Wi-Fi</li>
+                    <li>✔ Free basic check-up with every service</li>
+                </ul>
+                <div class="owner-card">
+                    <img src="owner.jpg" alt="owner of pace garage">
+
+                    <div class="owner-info">
+                        <h4>Owner – Chitkuri Sai Ram</h4>
+                        <p>
+                            “We believe in honest service, genuine parts, and long-term relationships with our customers.
+                            Every car that enters our garage is treated like our own.”
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="about-card">
+                <h3>Working Hours</h3>
+                <p>Mon – Sat: 9:00 AM – 8:00 PM<br>Sunday: 10:00 AM – 3:00 PM</p> 
+                <br>
+                <h3>Location</h3>
+                <p>Dammapeta, Mandalapalle,<br>Kothagudem District, Telangana</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">From basic service to major repairs, we’ve got you covered.</p>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Periodic Service</h3>
+                <p>Engine oil change, filters replacement, general check-up, brake inspection.</p>
+                <span class="service-tag">Recommended every 10,000 km</span>
+            </div>
+            <div class="service-card">
+                <h3>Engine & Mechanical</h3>
+                <p>Engine diagnostics, clutch work, suspension, steering & mechanical repairs.</p>
+                <span class="service-tag">For performance & safety</span>
+            </div>
+            <div class="service-card">
+                <h3>AC Service</h3>
+                <p>AC gas refill, cooling check, cabin filter change, leakage inspection.</p>
+                <span class="service-tag">Beat the heat</span>
+            </div>
+            <div class="service-card">
+                <h3>Wheel & Tyres</h3>
+                <p>Wheel alignment, balancing, rotation & tyre replacement guidance.</p>
+                <span class="service-tag">Smooth & safe drive</span>
+            </div>
+            <div class="service-card">
+                <h3>Body Repair & Paint</h3>
+                <p>Dent removal, repainting, scratch repair, accident body work.</p>
+                <span class="service-tag">Insurance claims supported</span>
+            </div>
+            <div class="service-card">
+                <h3>Detailing & Wash</h3>
+                <p>Interior vacuum, foam wash, polishing, headlight restoration.</p>
+                <span class="service-tag">Make it look new</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+        <h2 class="section-title">Sample Pricing</h2>
+        <p class="section-subtitle">Actual prices may vary by car model. Contact us for an exact quote.</p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Basic Service</h3>
+                <div class="price">₹1,999*</div>
+                <ul>
+                    <li>Engine oil & filter</li>
+                    <li>General inspection</li>
+                    <li>Top-up fluids</li>
+                    <li>Battery & brake check</li>
+                </ul>
+                <p class="small-note">*For small hatchbacks</p>
+            </div>
+
+            <div class="pricing-card">
+                <h3>Full Service</h3>
+                <div class="price">₹3,999*</div>
+                <ul>
+                    <li>All Basic Service items</li>
+                    <li>Air & fuel filter</li>
+                    <li>Complete car scan</li>
+                    <li>Interior cleaning</li>
+                </ul>
+                <p class="small-note">*Most popular package</p>
+            </div>
+
+            <div class="pricing-card">
+                <h3>Premium Detail</h3>
+                <div class="price">₹4,999*</div>
+                <ul>
+                    <li>Foam wash</li>
+                    <li>Wax & polish</li>
+                    <li>Interior deep clean</li>
+                    <li>Tyre & trim dressing</li>
+                </ul>
+                <p class="small-note">*Depends on car size</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section>
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-subtitle">Real feedback from car owners who trust us.</p>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                “Very professional service. They explained everything clearly and delivered my car on time.”
+                <div class="testimonial-name">Rahul Mehta</div>
+                <div class="testimonial-role">Hyundai i20 Owner</div>
+            </div>
+            <div class="testimonial-card">
+                “Got my car serviced and detailed here. It looks brand new. Honest pricing as well.”
+                <div class="testimonial-name">Sneha R</div>
+                <div class="testimonial-role">Honda City Owner</div>
+            </div>
+            <div class="testimonial-card">
+                “Good experience overall. Liked their pickup & drop facility. Will visit again.”
+                <div class="testimonial-name">Karthik</div>
+                <div class="testimonial-role">Maruti Baleno Owner</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2 class="section-title">Book Your Service</h2>
+        <p class="section-subtitle">Fill this form and our team will call you back to confirm your slot.</p>
+
+        <div class="contact-grid">
+            <form class="contact-form">
+                <div class="form-row">
+                    <label for="name">Full Name</label>
+                    <input id="name" type="text" placeholder="Your name">
+                </div>
+
+                <div class="form-row">
+                    <label for="phone">Mobile Number</label>
+                    <input id="phone" type="tel" placeholder="Your mobile number">
+                </div>
+
+                <div class="form-row">
+                    <label for="car">Car Model</label>
+                    <input id="car" type="text" placeholder="e.g. Swift, i20, Creta">
+                </div>
+
+                <div class="form-row">
+                    <label for="service">Service Type</label>
+                    <select id="service">
+                        <option>Periodic Service</option>
+                        <option>Engine / Mechanical</option>
+                        <option>AC Service</option>
+                        <option>Body Repair / Paint</option>
+                        <option>Detailing / Wash</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label for="message">Additional Details</label>
+                    <textarea id="message" placeholder="Preferred date & time, issues you're facing etc."></textarea>
+                </div>
+
+                <button type="button" class="btn-primary">Submit Request</button>
+            </form>
+
+            <div class="contact-info">
+                <p><strong>Phone:</strong> 9347821671</p>
+                <p><strong>Email:</strong> pace@autogarage.com</p>
+                <p><strong>Location:</strong> Dammapeta, Mandalapalle, 507306</p>
+                <br>
+                <p> Use Google Maps and search <strong>"Pace car Garage"</strong> for directions.</p>
+                <p>🚗 Free parking available for all customers.</p>
+                <a class="btn-outline maps-btn"
+       href="https://www.google.com/maps/search/?api=1&query=Dammapeta+Mandalapelle+507306"
+       target="_blank">
+       View on Google Maps
+    </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <span>© 2025 Pace Car Garage. All rights reserved.</span>
+            <span>Made with ❤️ using HTML & CSS.</span>
+        </div>
+    </footer>
+
+</body>
+</html>
