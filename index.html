@@ -13,6 +13,119 @@
             box-sizing: border-box;
             font-family: Arial, Helvetica, sans-serif;
         }
+        /* make header fixed and animate */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(15,23,42,0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #1f2937;
+  transition: transform 0.28s ease, padding 0.28s ease, box-shadow 0.28s ease;
+  padding: 0.9rem 1rem; /* default */
+}
+@keyframes logoPop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.4;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* animation triggers when header becomes visible */
+.logo-animate {
+  animation: logoPop 0.35s ease-out;
+}
+
+
+/* hide header (slide up) */
+.header-hidden {
+  transform: translateY(-110%);
+}
+
+/* smaller header state (after scrolling a bit) */
+.header-small {
+  padding: 0.4rem 1rem;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.45);
+}
+
+/* logo adjustments and transitions */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: gap 0.28s ease;
+}
+
+.logo img {
+  height: 50px;
+  width: auto;
+  transition: height 0.28s ease, filter 0.28s ease, transform 0.28s ease;
+}
+
+.header-small .logo img {
+  height: 36px; /* smaller logo when header shrinks */
+}
+
+.logo span {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ef4444;
+  transition: font-size 0.28s ease, text-shadow 0.28s ease;
+}
+
+.header-small .logo span {
+  font-size: 1.2rem; /* smaller title when header shrinks */
+}
+
+/* make sure page content starts below fixed header */
+.body-top-padding {
+  padding-top: 84px; /* adjust if your header height differs */
+}
+
+/* responsive tweak: smaller top padding on small screens */
+@media (max-width: 540px) {
+  .body-top-padding { padding-top: 72px; }
+  .logo img { height: 44px; }
+  .header-small .logo img { height: 34px; }
+}
+
+        body {
+    background-image: url("watermark.jpg");
+    background-size: 600px;          /* Size of watermark */
+    background-repeat: no-repeat;    /* Don't repeat */
+    background-position: center;     /* Middle of the page */
+    background-attachment: fixed;    /* stays still on scroll */
+    opacity: 1;                      /* Keep page normal */
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("watermark.png") center/cover no-repeat;
+    opacity: 0.25; /* FADE LEVEL – adjust here */
+    z-index: -1; 
+    pointer-events: none; /* Don’t block clicks */
+}
+
+
+.body-watermark {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.08;           /* Controls transparency */
+    background: url("watermark.png") center/contain no-repeat;
+    pointer-events: none;    /* So it doesn’t block clicks */
+}
+
 
         body {
             background-color: #0f172a;
@@ -524,6 +637,8 @@
     </style>
 </head>
 <body>
+    <div class="body-watermark"></div>
+
 
     <!-- NAVBAR -->
     <header>
@@ -665,13 +780,13 @@
 
     <!-- PRICING -->
     <section id="pricing">
-        <h2 class="section-title">Sample Pricing</h2>
+        <h2 class="section-title">Our Pricing starts </h2>
         <p class="section-subtitle">Actual prices may vary by car model. Contact us for an exact quote.</p>
 
         <div class="pricing-grid">
             <div class="pricing-card">
                 <h3>Basic Service</h3>
-                <div class="price">₹1,999*</div>
+                <div class="price">₹2,999*</div>
                 <ul>
                     <li>Engine oil & filter</li>
                     <li>General inspection</li>
@@ -683,7 +798,7 @@
 
             <div class="pricing-card">
                 <h3>Full Service</h3>
-                <div class="price">₹3,999*</div>
+                <div class="price">₹4,999*</div>
                 <ul>
                     <li>All Basic Service items</li>
                     <li>Air & fuel filter</li>
@@ -695,7 +810,7 @@
 
             <div class="pricing-card">
                 <h3>Premium Detail</h3>
-                <div class="price">₹4,999*</div>
+                <div class="price">₹5,999*</div>
                 <ul>
                     <li>Foam wash</li>
                     <li>Wax & polish</li>
@@ -715,17 +830,17 @@
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 “Very professional service. They explained everything clearly and delivered my car on time.”
-                <div class="testimonial-name">Rahul Mehta</div>
+                <div class="testimonial-name">Deepak</div>
                 <div class="testimonial-role">Hyundai i20 Owner</div>
             </div>
             <div class="testimonial-card">
                 “Got my car serviced and detailed here. It looks brand new. Honest pricing as well.”
-                <div class="testimonial-name">Sneha R</div>
+                <div class="testimonial-name">vamsi</div>
                 <div class="testimonial-role">Honda City Owner</div>
             </div>
             <div class="testimonial-card">
                 “Good experience overall. Liked their pickup & drop facility. Will visit again.”
-                <div class="testimonial-name">Karthik</div>
+                <div class="testimonial-name">sivaji</div>
                 <div class="testimonial-role">Maruti Baleno Owner</div>
             </div>
         </div>
@@ -796,6 +911,56 @@
             <span>Made with ❤️ using HTML & CSS.</span>
         </div>
     </footer>
+<script>
+  (function() {
+    const header = document.querySelector('header');
+    const body = document.querySelector('body');
+    if (!header || !body) return;
+
+    // ensure body has top padding so content doesn't hide under fixed header
+    body.classList.add('body-top-padding');
+
+    let lastScroll = window.scrollY || 0;
+    const hideThreshold = 100; // start hiding after 100px down
+    const shrinkThreshold = 50; // shrink header after 50px down
+    let ticking = false;
+
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const current = window.scrollY || 0;
+
+          // hide on scroll down, show on scroll up
+          if (current > lastScroll && current > hideThreshold) {
+            header.classList.add('header-hidden');
+          } else {
+            header.classList.remove('header-hidden');
+
+// trigger logo animation
+const logo = header.querySelector('.logo');
+if (logo) {
+  logo.classList.remove('logo-animate');
+  void logo.offsetWidth; // reset animation trick
+  logo.classList.add('logo-animate');
+}
+
+          }
+
+          // add shrink class when scrolled a bit
+          if (current > shrinkThreshold) {
+            header.classList.add('header-small');
+          } else {
+            header.classList.remove('header-small');
+          }
+
+          lastScroll = current <= 0 ? 0 : current;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
+</script>
 
 </body>
 </html>
