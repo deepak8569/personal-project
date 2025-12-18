@@ -7,6 +7,64 @@
     <!-- INTERNAL CSS -->
      <style>
 
+        /* Scroll reveal base state */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+/* Floating WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    bottom: 80px; /* above Call button */
+    right: 20px;
+    background: #25D366;
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 25px rgba(37,211,102,0.5);
+    z-index: 9999;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.whatsapp-float:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(37,211,102,0.7);
+}
+
+/* WhatsApp icon pulse */
+.whatsapp-float span {
+    font-size: 1.3rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* Mobile: icon-only */
+@media (max-width: 480px) {
+    .whatsapp-float {
+        padding: 14px;
+        font-size: 0;
+    }
+}
+
+/* When visible */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
         * {
             margin: 0;
             padding: 0;
@@ -76,11 +134,37 @@ header {
 }
 
 .logo span {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ef4444;
-  transition: font-size 0.28s ease, text-shadow 0.28s ease;
+    position: relative;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ef4444;
+    letter-spacing: 1px;
+    text-shadow:
+        0 0 6px #ef4444,
+        0 0 12px #b91c1c,
+        0 0 20px #7f1d1d;
 }
+.logo span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 40;
+    height: 3px;
+    background: linear-gradient(90deg, #ef4444, #f97316);
+    transition: width 0.35s ease;
+    border-radius: 2px;
+}
+.logo:hover span::after {
+    width: 100%;
+}
+
+
+/* animate underline on hover */
+.logo:hover span::after {
+    width: 100%;
+}
+
 
 .header-small .logo span {
   font-size: 1.2rem; /* smaller title when header shrinks */
@@ -179,7 +263,6 @@ body::before {
 
         .nav {
             max-width: 1100px;
-            margin: 0 auto;
             padding: 0.8rem 1rem;
             display: flex;
             align-items: center;
@@ -458,7 +541,54 @@ body::before {
             border: 1px solid #1f2937;
             padding: 1.2rem;
             background: #020617;
-        }
+        }/* Floating Call Button */
+.call-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ef4444;
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 25px rgba(239,68,68,0.5);
+    z-index: 9999;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.call-float:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(239,68,68,0.7);
+}
+
+/* Phone icon animation */
+.call-float span {
+    font-size: 1.2rem;
+    animation: ring 1.2s infinite;
+}
+
+@keyframes ring {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(-15deg); }
+    40% { transform: rotate(15deg); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Mobile friendly */
+@media (max-width: 480px) {
+    .call-float {
+        padding: 14px;
+        font-size: 0;
+    }
+}
+
 
         .pricing-card h3 {
             font-size: 1rem;
@@ -634,6 +764,11 @@ body::before {
                 font-size: 2rem;
             }
         }
+        header {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
     </style>
 </head>
 <body>
@@ -645,7 +780,7 @@ body::before {
         <div class="nav">
             <div class="logo">
     <img src="logo.png" alt="Pace Car Garage Logo">
-    <span>....Pace Car Garage...</span>
+    <span>Pace Car Garage</span>
 </div>
 
 
@@ -659,7 +794,7 @@ body::before {
     </header>
 
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero reveal">
         <div class="hero-text">
             <h1>Reliable <span>Car Care</span> for Every Journey.</h1>
             <p>Full-service car garage for routine service, emergency repairs, and premium detailing. Trusted by hundreds of car owners in your city.</p>
@@ -683,11 +818,11 @@ body::before {
 
             <div class="hero-stats">
                 <div class="stat-box">
-                    <div class="stat-number">10+</div>
+                    <div class="stat-number">2+</div>
                     <div class="stat-label">Years Experience</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">5000+</div>
+                    <div class="stat-number">1000+</div>
                     <div class="stat-label">Cars Serviced</div>
                 </div>
                 <div class="stat-box">
@@ -699,7 +834,7 @@ body::before {
     </section>
 
     <!-- ABOUT -->
-    <section id="about">
+    <section id="about" class="reveal">
         <h2 class="section-title">About Our Garage</h2>
         <p class="section-subtitle">We treat every car like it's our own.</p>
 
@@ -740,7 +875,7 @@ body::before {
     </section>
 
     <!-- SERVICES -->
-    <section id="services">
+    <section id="services" class="reveal">
         <h2 class="section-title">Our Services</h2>
         <p class="section-subtitle">From basic service to major repairs, we’ve got you covered.</p>
 
@@ -779,7 +914,7 @@ body::before {
     </section>
 
     <!-- PRICING -->
-    <section id="pricing">
+    <section id="pricing" class="reveal">
         <h2 class="section-title">Our Pricing starts </h2>
         <p class="section-subtitle">Actual prices may vary by car model. Contact us for an exact quote.</p>
 
@@ -847,7 +982,7 @@ body::before {
     </section>
 
     <!-- CONTACT -->
-    <section id="contact">
+    <section id="contact" class="reveal">
         <h2 class="section-title">Book Your Service</h2>
         <p class="section-subtitle">Fill this form and our team will call you back to confirm your slot.</p>
 
@@ -894,11 +1029,11 @@ body::before {
                 <p><strong>Location:</strong> Dammapeta, Mandalapalle, 507306</p>
                 <br>
                 <p> Use Google Maps and search <strong>"Pace car Garage"</strong> for directions.</p>
-                <p>🚗 Free parking available for all customers.</p>
+                <p>🚗 Free parking available for all customers.</p><br><br>
                 <a class="btn-outline maps-btn"
        href="https://www.google.com/maps/search/?api=1&query=Dammapeta+Mandalapelle+507306"
        target="_blank">
-       View on Google Maps
+         View on Google Maps
     </a>
             </div>
         </div>
@@ -908,7 +1043,6 @@ body::before {
     <footer>
         <div class="footer-inner">
             <span>© 2025 Pace Car Garage. All rights reserved.</span>
-            <span>Made with ❤️ using HTML & CSS.</span>
         </div>
     </footer>
 <script>
@@ -961,6 +1095,34 @@ if (logo) {
     }, { passive: true });
   })();
 </script>
+<a href="tel:9347821671" class="call-float">
+    <span>📞</span> Call Now
+</a>
+<script>
+  function revealOnScroll() {
+    const reveals = document.querySelectorAll('.reveal');
+
+    reveals.forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      const revealPoint = 120;
+
+      if (elementTop < windowHeight - revealPoint) {
+        el.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+</script>
+<a
+  href="https://wa.me/919347821671?text=Hello%20Pace%20Car%20Garage,%20I%20want%20to%20book%20a%20service"
+  class="whatsapp-float"
+  target="_blank"
+>
+  <span>💬</span> WhatsApp
+</a>
 
 </body>
 </html>
