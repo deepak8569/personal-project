@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Pace Car garage</title>
+
     <!-- INTERNAL CSS -->
      <style>
         /* Section Divider */
@@ -30,12 +31,22 @@
     align-items: center;
     gap: 12px;
     font-weight: bold;
-    font-size: 0.95rem;
+    font-size: 1.00rem;
     box-shadow: 0 10px 25px rgba(37,211,102,0.5);
     z-index: 9999;
     text-decoration: none;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+/* Button click animation */
+.btn-click {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-click.clicked {
+    transform: scale(0.92);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
 
 .whatsapp-float:hover {
     transform: translateY(-4px) scale(1.05);
@@ -61,6 +72,11 @@
         font-size: 0;
     }
 }
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #ef4444;
+}
+
 
 /* When visible */
 .reveal.active {
@@ -77,17 +93,19 @@
         }
         /* make header fixed and animate */
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(15,23,42,0.95);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid #1f2937;
-  transition: transform 0.28s ease, padding 0.28s ease, box-shadow 0.28s ease;
-  padding: 0.9rem 1rem; /* default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    z-index: 1000;
 }
+
+
+
 @keyframes logoPop {
   0% {
     transform: scale(0.85);
@@ -276,13 +294,15 @@ body::before {
             border-bottom: 1px solid #1f2937;
         }
 
-        .nav {
-            max-width: 1100px;
-            padding: 0.8rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+         .nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent !important;
+}
 
      .logo {
     display: flex;
@@ -788,9 +808,33 @@ body::before {
     justify-content: center;
     margin: 3rem 0;
 }
+.garage-status {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.garage-open {
+    color: #22c55e; /* green */
+}
+
+.garage-closed {
+    color: #ef4444; /* red */
+}
+.garage-open::before {
+    content: "● ";
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.3; }
+}
+
     </style>
 </head>
 <body>
+
 
     <div class="body-watermark"></div>
 
@@ -798,6 +842,9 @@ body::before {
 
     <!-- NAVBAR -->
     <header>
+      <div id="garage-status" class="garage-status"></div>
+
+
         <div class="nav">
             <div class="logo">
     <img src="logo.png" alt="Pace Car Garage Logo">
@@ -827,8 +874,9 @@ body::before {
             </div>
 
             <div class="hero-buttons">
-                <button class="btn-primary" onclick="window.location.href='#contact'">Book Service</button>
-                <button class="btn-outline" onclick="window.location.href='#services'">View Services</button>
+                <button class="btn-primary btn-click">Book Service</button>
+                <button class="btn-outline btn-click">View Services</button>
+
             </div>
         </div>
 
@@ -1008,15 +1056,16 @@ body::before {
         <p class="section-subtitle">Fill this form and our team will call you back to confirm your slot.</p>
 
         <div class="contact-grid">
-            <form class="contact-form">
+           <form class="contact-form" id="serviceForm">
+
                 <div class="form-row">
                     <label for="name">Full Name</label>
-                    <input id="name" type="text" placeholder="Your name">
+                    <input type="text" id="name" placeholder="Your name">
                 </div>
 
                 <div class="form-row">
                     <label for="phone">Mobile Number</label>
-                    <input id="phone" type="tel" placeholder="Your mobile number">
+                    <input type="tel" id="phone" placeholder="Your mobile number">
                 </div>
 
                 <div class="form-row">
@@ -1136,6 +1185,67 @@ if (logo) {
 
   window.addEventListener('scroll', revealOnScroll);
   window.addEventListener('load', revealOnScroll);
+  const statusEl = document.getElementById("garage-status");
+
+function updateGarageStatus() {
+  const now = new Date();
+  const hour = now.getHours();
+
+  // Garage working hours: 9 AM to 8 PM
+  if (hour >= 9 && hour < 20) {
+    statusEl.textContent = "🟢 Open Now (9:00 AM – 8:00 PM)";
+    statusEl.className = "garage-status garage-open";
+  } else {
+    statusEl.textContent = "🔴 Closed (Opens at 9:00 AM)";
+    statusEl.className = "garage-status garage-closed";
+  }
+}
+
+// Run once on load
+updateGarageStatus();
+
+// Update every minute (real-time)
+setInterval(updateGarageStatus, 60000);
+const form = document.getElementById("serviceForm");
+const nameInput = document.getElementById("name");
+const phoneInput = document.getElementById("phone");
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault(); // stop form submission
+
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.trim();
+
+  // Name validation
+  if (name === "") {
+    alert("Please enter your name");
+    nameInput.focus();
+    return;
+  }
+
+    // Phone validation (10-digit Indian mobile number)
+  if (!/^[6-9]\d{9}$/.test(phone)) {
+    alert("Please enter a valid 10-digit mobile number");
+    phoneInput.focus();
+    return;
+  }
+
+  // If all validations pass
+  alert("✅ Thank you! Your service request has been submitted.");
+
+  // Reset form
+  form.reset();
+});
+document.querySelectorAll(".btn-click").forEach(button => {
+  button.addEventListener("click", () => {
+    button.classList.add("clicked");
+
+    setTimeout(() => {
+      button.classList.remove("clicked");
+    }, 150);
+  });
+});
+
 </script>
 <a
   href="https://wa.me/919347821671?text=Hello%20Pace%20Car%20Garage,%20I%20want%20to%20book%20a%20service"
@@ -1144,6 +1254,5 @@ if (logo) {
 >
   <span>💬</span> WhatsApp
 </a>
-
 </body>
 </html>
